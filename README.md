@@ -166,12 +166,21 @@ cp .env.example .env
 
 编辑 `.env` 文件，填入以下两个必需的 API Key：
 
-**LLM API Key**（用于驱动 Agent 思考和证据提取）：
+本系统使用两个 LLM，职责不同：
 
-支持任何 OpenAI 兼容 API。你可以使用：
-- [OpenAI](https://platform.openai.com/api-keys) — 获取 API Key，推荐模型 `gpt-4o`
-- [Anthropic Claude](https://console.anthropic.com/) — 获取 API Key，推荐模型 `claude-sonnet-4-20250514`
-- 其他 OpenAI 兼容 API（如 DeepSeek、通义千问等）
+| 用途 | 角色 | 推荐模型 | 说明 |
+|------|------|----------|------|
+| **主 LLM** | Agent 思考、观点拆解、搜索策略、证据提取 | Claude Opus / GPT-4o / DeepSeek-R1 等强模型 | 需要较强的推理和规划能力，建议用你能负担的最强模型 |
+| **评分 LLM**（可选） | 五维质量评分 | GPT-4o-mini / Claude Haiku 等轻量模型 | 任务相对简单，用便宜模型即可，节省成本 |
+
+> 如果不配置评分 LLM，系统会用主 LLM 同时承担两个角色——可以用，但成本更高。
+
+**主 LLM API Key**（必填）：
+
+支持任何 OpenAI 兼容 API：
+- [OpenAI](https://platform.openai.com/api-keys) — 推荐 `gpt-4o` 或更强模型
+- [Anthropic Claude](https://console.anthropic.com/) — 推荐 `claude-sonnet-4-20250514` 或 `claude-opus-4-20250514`
+- 其他 OpenAI 兼容 API（如 [DeepSeek](https://platform.deepseek.com/)、通义千问等）
 
 ```env
 LLM_API_KEY=sk-your-api-key-here
@@ -179,7 +188,15 @@ LLM_BASE_URL=https://api.openai.com/v1
 LLM_MODEL=gpt-4o
 ```
 
-**搜索 API Key**（用于网页搜索）：
+**评分 LLM API Key**（可选，推荐配置以节省成本）：
+
+```env
+SCORING_LLM_API_KEY=sk-your-scoring-api-key
+SCORING_LLM_BASE_URL=https://api.openai.com/v1
+SCORING_LLM_MODEL=gpt-4o-mini
+```
+
+**搜索 API Key**（必填）：
 
 - [Serper](https://serper.dev/) — 注册即可获得免费额度（2500 次搜索），足够深度体验
 

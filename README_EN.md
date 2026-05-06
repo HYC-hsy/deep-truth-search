@@ -166,12 +166,21 @@ cp .env.example .env
 
 Edit `.env` with the two required API keys:
 
-**LLM API Key** (powers Agent thinking and evidence extraction):
+This system uses two LLMs with different roles:
+
+| Role | Purpose | Recommended Models | Notes |
+|------|---------|-------------------|-------|
+| **Main LLM** | Agent thinking, claim decomposition, search strategy, evidence extraction | Claude Opus / GPT-4o / DeepSeek-R1 or other strong models | Requires strong reasoning and planning — use the best model you can afford |
+| **Scoring LLM** (optional) | Five-dimensional quality scoring | GPT-4o-mini / Claude Haiku or other lightweight models | Relatively simple task — a cheaper model works fine, saves cost |
+
+> If you don't configure a separate scoring LLM, the system uses the main LLM for both roles — works fine, but costs more.
+
+**Main LLM API Key** (required):
 
 Any OpenAI-compatible API works:
-- [OpenAI](https://platform.openai.com/api-keys) — recommended model: `gpt-4o`
-- [Anthropic Claude](https://console.anthropic.com/) — recommended model: `claude-sonnet-4-20250514`
-- Other OpenAI-compatible APIs (DeepSeek, Qwen, etc.)
+- [OpenAI](https://platform.openai.com/api-keys) — recommended: `gpt-4o` or stronger
+- [Anthropic Claude](https://console.anthropic.com/) — recommended: `claude-sonnet-4-20250514` or `claude-opus-4-20250514`
+- Other OpenAI-compatible APIs ([DeepSeek](https://platform.deepseek.com/), Qwen, etc.)
 
 ```env
 LLM_API_KEY=sk-your-api-key-here
@@ -179,7 +188,15 @@ LLM_BASE_URL=https://api.openai.com/v1
 LLM_MODEL=gpt-4o
 ```
 
-**Search API Key** (powers web search):
+**Scoring LLM API Key** (optional, recommended to save cost):
+
+```env
+SCORING_LLM_API_KEY=sk-your-scoring-api-key
+SCORING_LLM_BASE_URL=https://api.openai.com/v1
+SCORING_LLM_MODEL=gpt-4o-mini
+```
+
+**Search API Key** (required):
 
 - [Serper](https://serper.dev/) — free tier gives 2,500 searches, enough for extensive use
 
