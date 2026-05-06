@@ -1,0 +1,45 @@
+# 环境与密钥
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+.venv/
+venv/
+env/
+
+# 数据
+data/
+
+# IDE / AI 工具
+.vscode/
+.idea/
+.claude/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 测试
+.pytest_cache/
+htmlcov/
+.coverage
+
+# 日志
+*.log
+.gstack/
+
+# 内部开发文档（不公开）
+masterplan.md
+tasks.md
+implementation-plan.md
+design-guidelines.md
+app-flow-pages-and-roles.md
+CLAUDE.md
