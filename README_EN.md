@@ -185,7 +185,7 @@ Any OpenAI-compatible API works:
 ```env
 LLM_API_KEY=sk-your-api-key-here
 LLM_BASE_URL=https://api.openai.com/v1
-LLM_MODEL=gpt-4o
+LLM_MODEL=gpt-5.1
 ```
 
 **Scoring LLM API Key** (optional, recommended to save cost):
@@ -193,7 +193,7 @@ LLM_MODEL=gpt-4o
 ```env
 SCORING_LLM_API_KEY=sk-your-scoring-api-key
 SCORING_LLM_BASE_URL=https://api.openai.com/v1
-SCORING_LLM_MODEL=gpt-4o-mini
+SCORING_LLM_MODEL=gpt-4o
 ```
 
 **Search API Key** (required):

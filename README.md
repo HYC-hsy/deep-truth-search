@@ -185,7 +185,7 @@ cp .env.example .env
 ```env
 LLM_API_KEY=sk-your-api-key-here
 LLM_BASE_URL=https://api.openai.com/v1
-LLM_MODEL=gpt-4o
+LLM_MODEL=gpt-5.1
 ```
 
 **评分 LLM API Key**（可选，推荐配置以节省成本）：
@@ -193,7 +193,7 @@ LLM_MODEL=gpt-4o
 ```env
 SCORING_LLM_API_KEY=sk-your-scoring-api-key
 SCORING_LLM_BASE_URL=https://api.openai.com/v1
-SCORING_LLM_MODEL=gpt-4o-mini
+SCORING_LLM_MODEL=gpt-4o
 ```
 
 **搜索 API Key**（必填）：
