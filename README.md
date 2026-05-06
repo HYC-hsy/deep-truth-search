@@ -125,43 +125,79 @@
 ### 环境要求
 
 - Python 3.10+
-- LLM API（OpenAI / Claude / 其他 OpenAI 兼容 API）
-- 搜索 API（[Serper](https://serper.dev/) — 免费额度足够体验）
+- LLM API Key（下方说明如何获取）
+- 搜索 API Key（下方说明如何获取）
 
-### 安装
+### Step 0：克隆项目
 
 ```bash
 git clone https://github.com/HYC-hsy/deep-truth-search.git
 cd deep-truth-search
+```
+
+### Step 1：创建虚拟环境
+
+推荐使用 conda 或 venv 创建隔离环境，避免依赖冲突：
+
+```bash
+# 方式一：conda（推荐）
+conda create -n deep-truth-search python=3.10
+conda activate deep-truth-search
+
+# 方式二：venv
+python -m venv venv
+# Windows:
+venv\Scripts\activate
+# macOS/Linux:
+source venv/bin/activate
+```
+
+### Step 2：安装依赖
+
+```bash
 pip install -r requirements.txt
 ```
 
-### 配置
+### Step 3：配置 API Key
 
 ```bash
 cp .env.example .env
 ```
 
-编辑 `.env`，填入你的 API Key：
+编辑 `.env` 文件，填入以下两个必需的 API Key：
+
+**LLM API Key**（用于驱动 Agent 思考和证据提取）：
+
+支持任何 OpenAI 兼容 API。你可以使用：
+- [OpenAI](https://platform.openai.com/api-keys) — 获取 API Key，推荐模型 `gpt-4o`
+- [Anthropic Claude](https://console.anthropic.com/) — 获取 API Key，推荐模型 `claude-sonnet-4-20250514`
+- 其他 OpenAI 兼容 API（如 DeepSeek、通义千问等）
 
 ```env
-# 必填：LLM
 LLM_API_KEY=sk-your-api-key-here
+LLM_BASE_URL=https://api.openai.com/v1
 LLM_MODEL=gpt-4o
+```
 
-# 必填：搜索
+**搜索 API Key**（用于网页搜索）：
+
+- [Serper](https://serper.dev/) — 注册即可获得免费额度（2500 次搜索），足够深度体验
+
+```env
 SEARCH_API_KEY=your-serper-api-key-here
 ```
 
-完整配置说明见 [.env.example](.env.example)。
+> 完整配置项和说明见 [.env.example](.env.example)。
 
-### 运行
+### Step 4：运行
 
 ```bash
 python main.py
 ```
 
 浏览器会自动打开 `http://127.0.0.1:8888`。输入你的观点，等待系统返回证据。
+
+> **提示**：首次搜索通常需要 3-10 分钟（取决于观点复杂度和网络状况）。搜索过程中你可以实时看到进度。
 
 ---
 

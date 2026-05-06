@@ -125,43 +125,79 @@ Each piece of evidence includes:
 ### Requirements
 
 - Python 3.10+
-- LLM API (OpenAI / Claude / any OpenAI-compatible API)
-- Search API ([Serper](https://serper.dev/) — free tier is enough to try)
+- LLM API Key (instructions below)
+- Search API Key (instructions below)
 
-### Installation
+### Step 0: Clone the Project
 
 ```bash
 git clone https://github.com/HYC-hsy/deep-truth-search.git
 cd deep-truth-search
+```
+
+### Step 1: Create a Virtual Environment
+
+Use conda or venv to create an isolated environment:
+
+```bash
+# Option A: conda (recommended)
+conda create -n deep-truth-search python=3.10
+conda activate deep-truth-search
+
+# Option B: venv
+python -m venv venv
+# Windows:
+venv\Scripts\activate
+# macOS/Linux:
+source venv/bin/activate
+```
+
+### Step 2: Install Dependencies
+
+```bash
 pip install -r requirements.txt
 ```
 
-### Configuration
+### Step 3: Configure API Keys
 
 ```bash
 cp .env.example .env
 ```
 
-Edit `.env` with your API keys:
+Edit `.env` with the two required API keys:
+
+**LLM API Key** (powers Agent thinking and evidence extraction):
+
+Any OpenAI-compatible API works:
+- [OpenAI](https://platform.openai.com/api-keys) — recommended model: `gpt-4o`
+- [Anthropic Claude](https://console.anthropic.com/) — recommended model: `claude-sonnet-4-20250514`
+- Other OpenAI-compatible APIs (DeepSeek, Qwen, etc.)
 
 ```env
-# Required: LLM
 LLM_API_KEY=sk-your-api-key-here
+LLM_BASE_URL=https://api.openai.com/v1
 LLM_MODEL=gpt-4o
+```
 
-# Required: Search
+**Search API Key** (powers web search):
+
+- [Serper](https://serper.dev/) — free tier gives 2,500 searches, enough for extensive use
+
+```env
 SEARCH_API_KEY=your-serper-api-key-here
 ```
 
-See [.env.example](.env.example) for full configuration reference.
+> See [.env.example](.env.example) for all configuration options with comments.
 
-### Run
+### Step 4: Run
 
 ```bash
 python main.py
 ```
 
 Your browser will automatically open `http://127.0.0.1:8888`. Enter your claim and wait for evidence.
+
+> **Note**: The first search typically takes 3-10 minutes depending on claim complexity and network conditions. You can watch real-time progress during the search.
 
 ---
 
