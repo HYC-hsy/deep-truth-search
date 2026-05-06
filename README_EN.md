@@ -178,7 +178,7 @@ This system uses two LLMs with different roles:
 **Main LLM API Key** (required):
 
 Any OpenAI-compatible API works:
-- [OpenAI](https://platform.openai.com/api-keys) — recommended: `gpt-4o` or stronger
+- [OpenAI](https://platform.openai.com/api-keys) — recommended: `gpt-5.1` or stronger
 - [Anthropic Claude](https://console.anthropic.com/) — recommended: `claude-sonnet-4-20250514` or `claude-opus-4-20250514`
 - Other OpenAI-compatible APIs ([DeepSeek](https://platform.deepseek.com/), Qwen, etc.)
 

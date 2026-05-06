@@ -178,7 +178,7 @@ cp .env.example .env
 **主 LLM API Key**（必填）：
 
 支持任何 OpenAI 兼容 API：
-- [OpenAI](https://platform.openai.com/api-keys) — 推荐 `gpt-4o` 或更强模型
+- [OpenAI](https://platform.openai.com/api-keys) — 推荐 `gpt-5.1` 或更强模型
 - [Anthropic Claude](https://console.anthropic.com/) — 推荐 `claude-sonnet-4-20250514` 或 `claude-opus-4-20250514`
 - 其他 OpenAI 兼容 API（如 [DeepSeek](https://platform.deepseek.com/)、通义千问等）
 
