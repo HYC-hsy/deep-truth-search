@@ -160,22 +160,27 @@ class MainAgentHandler:
         disclosure_section = self._format_disclosure_section()
 
         return f"""\
-你是一个研究主管 Agent，负责围绕用户观点进行多角度深度研究。
+你是一个研究主管 Agent，负责围绕用户观点寻找充分的证据支撑。
 
 当前日期：{today}
 当用户提到"今年"时，指的是 {time.strftime('%Y')} 年。搜索时请使用正确的年份。
 
 ## 当前任务
 
-研究以下观点，找到数量足够多、质量足够高的证据：
+为以下观点寻找数量足够多、质量足够高的证据：
 「{self.query}」
+
+忠于用户的原始观点。不改写、不弱化、不替换用户的表述。你的价值是为这个观点找到最有力的证据。
 
 ## 工作策略
 
-1. **分析观点**：思考这个观点涉及哪些方面、可以从哪些角度搜索证据
-2. **批量搜索**：将所有子观点方向一次性提交给 batch_search，系统会并行搜索
-   - 子观点应该是具体的陈述句，不是问题
-   - 从不同角度搜索：技术、应用、学术、政策、社会影响等
+1. **分析观点**：先理解观点要证明什么，再设计搜索方向
+   - 识别观点中的关键主张词，思考每个词对证据的要求（例如："最有效"需要与替代方案横向比较；"不可逆"需要论证锁定机制；"被低估"需要解释低估的原因和证据）
+   - 思考证明该观点最有力的论证结构是什么（例如：因果链、排除法、反事实分析、历史演进、多层证据金字塔等），然后按这个结构设计搜索方向
+2. **批量搜索**：将搜索方向一次性提交给 batch_search，系统会并行搜索
+   - 子观点应是明确的研究方向，不是搜索关键词的堆砌
+   - 方向之间应有层次和逻辑关系，而非简单平铺罗列
+   - 可以包含一个探索局限性或边界条件的方向，放在最后
    - **一次调用 batch_search 提交所有方向，不要分多次调用**
 3. **评估覆盖度**：batch_search 返回全部结果后，查看所有方向的证据，判断：
    - 哪些方向证据充足？
@@ -186,8 +191,8 @@ class MainAgentHandler:
 
 ## 约束
 
-- 总搜索方向不超过 {max_searches} 个
-- 首次 batch_search 应包含 3-7 个子观点方向
+- 总搜索方向不超过 15 个
+- 首次 batch_search 应包含 3-10 个子观点方向
 - 最终输出按「论点 + 论据」结构组织
 - 论点标题简短（一句话）
 - 不替用户做最终判断，只提供证据
@@ -215,6 +220,18 @@ class MainAgentHandler:
                 f"还剩 2 轮。当前共 {len(self._all_evidence)} 条证据。"
                 "请评估是否需要最后一次补搜，然后准备调用 submit_results。"
             )
+        # 首次 batch_search 返回后，引导评估覆盖度
+        if self._search_count > 0 and turn <= 3:
+            failed = [sc for sc, indices in self._subclaim_evidence_map.items() if not indices]
+            weak = [sc for sc, indices in self._subclaim_evidence_map.items() if 0 < len(indices) <= 5]
+            if failed or weak:
+                parts = [f"当前共 {len(self._all_evidence)} 条证据，还剩 {remaining} 轮。"]
+                if failed:
+                    parts.append(f"以下方向搜索失败或无证据：{[s[:30] for s in failed]}")
+                if weak:
+                    parts.append(f"以下方向证据较少（≤5条）：{[s[:30] for s in weak]}")
+                parts.append("请评估是否需要补搜这些方向，或换个角度重新搜索。也可以直接提交结果。")
+                return " ".join(parts)
         return None
 
     def on_max_turns(self) -> Any:
@@ -393,7 +410,7 @@ class MainAgentHandler:
             else:
                 # 通过子观点名称查找证据（允许同一证据出现在多个论点）
                 evidences = []
-                seen_urls: set[str] = set()  # 同一论点内按 URL 去重
+                seen_url_texts: set[tuple[str, str]] = set()  # (URL, evidence_text) 去重
                 matched_keys = []
                 unmatched_keys = []
 
@@ -404,9 +421,10 @@ class MainAgentHandler:
                         for i in indices:
                             if 0 <= i < len(self._all_evidence):
                                 ev = self._all_evidence[i]
-                                if ev.source_url not in seen_urls:
+                                dedup_key = (ev.source_url, ev.evidence_text)
+                                if dedup_key not in seen_url_texts:
                                     evidences.append(ev)
-                                    seen_urls.add(ev.source_url)
+                                    seen_url_texts.add(dedup_key)
                     else:
                         unmatched_keys.append(key[:30])
 
