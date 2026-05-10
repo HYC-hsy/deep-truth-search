@@ -220,8 +220,8 @@ class MainAgentHandler:
                 f"还剩 2 轮。当前共 {len(self._all_evidence)} 条证据。"
                 "请评估是否需要最后一次补搜，然后准备调用 submit_results。"
             )
-        # 首次 batch_search 返回后，引导评估覆盖度
-        if self._search_count > 0 and turn <= 3:
+        # batch_search 返回后，引导评估覆盖度
+        if self._search_count > 0 and remaining >= 3:
             failed = [sc for sc, indices in self._subclaim_evidence_map.items() if not indices]
             weak = [sc for sc, indices in self._subclaim_evidence_map.items() if 0 < len(indices) <= 5]
             if failed or weak:
