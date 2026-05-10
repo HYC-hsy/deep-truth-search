@@ -1,0 +1,460 @@
+{
+  "test_time": "2026-05-07T12:07:02.957345",
+  "model": "claude-opus-4-6",
+  "total_claims": 9,
+  "summary": [
+    {
+      "id": 2,
+      "domain": "计算机科学",
+      "claim": "知识图谱作为一种技术体系，是大数据时代知识工程的代表性进展",
+      "subclaim_count": 6,
+      "subclaims": [
+        "知识图谱是大数据时代知识工程的核心技术和代表性成果",
+        "知识图谱构成了完整的技术体系，包括知识表示、知识获取、知识存储、知识推理和知识应用等环节",
+        "大数据时代推动了知识工程从传统专家系统向知识图谱的范式转变",
+        "Google、百度等企业大规模构建知识图谱标志着知识工程进入新阶段",
+        "知识图谱融合了语义网、自然语言处理、机器学习等多种技术形成新的知识工程方法论",
+        "学术界将知识图谱视为新一代知识工程的重要研究方向和里程碑"
+      ],
+      "thinking": "The user wants me to find evidence for the claim \"知识图谱作为一种技术体系，是大数据时代知识工程的代表性进展\" (Knowledge graphs, as a technical system, represent a representative advancement of knowledge engineering in the big data era).\n\nI have 0 evidence so far and only 2 rounds left. I need to do one batch_search to gather evidence, then submit results. Let me design my search directions carefully.\n\nThe claim has several key components:\n1. Knowledge graphs as a \"technical system\" (技术体系) - not just a single technology\n2. Big data era (大数据时代) - temporal context\n3. Knowledge engineering (知识工程) - the field\n4. \"Representative advancement\" (代表性进展) - significance claim\n\nLet me design search directions that cover:\n1. The evolution from traditional knowledge engineering to knowledge graphs\n2. Knowledge graphs as a comprehensive technical system (construction, representation, reasoning, application)\n3. The relationship between big data and the emergence/necessity of knowledge graphs\n4. Academic/industry recognition of knowledge graphs as a milestone in knowledge engineering\n5. Comparison with other knowledge engineering approaches in the big data era\n\n当前0条证据，还剩2轮，我需要立即进行一次高效的批量搜索来收集证据。让我分析观点结构并设计搜索方向：\n\n**观点分析：**\n- \"知识图谱\"——核心技术对象\n- \"技术体系\"——强调不是单一技术，而是完整体系\n- \"大数据时代\"——时代背景\n- \"知识工程的代表性进展\"——在知识工程领域的地位判断\n\n需要证明：知识图谱在大数据时代背景下，作为一个完整技术体系，代表了知识工程领域的重要进展。",
+      "latency_s": 28.58,
+      "error": null
+    },
+    {
+      "id": 3,
+      "domain": "医学/健康",
+      "claim": "间歇性断食是目前科学证据最充分的长寿饮食方式",
+      "subclaim_count": 6,
+      "subclaims": [
+        "间歇性断食延长寿命的随机对照试验和Meta分析证据",
+        "间歇性断食通过自噬、mTOR抑制、sirtuins激活等机制延缓衰老的分子生物学证据",
+        "间歇性断食在动物模型中延长寿命的实验证据",
+        "间歇性断食与地中海饮食、热量限制、生酮饮食相比在长寿研究中的证据数量和质量对比",
+        "间歇性断食改善衰老生物标志物的人体研究证据包括炎症指标胰岛素敏感性氧化应激",
+        "2024-2026年间歇性断食长寿研究的最新进展和大型临床试验结果"
+      ],
+      "thinking": "The user is telling me that I have 2 rounds left and currently have 0 pieces of evidence. I need to do a batch_search to gather evidence for the claim \"间歇性断食是目前科学证据最充分的长寿饮食方式\" (Intermittent fasting is the longevity diet with the most sufficient scientific evidence currently).\n\nLet me analyze this claim:\n- Key assertion: \"科学证据最充分\" (most sufficient scientific evidence) - this requires showing IF has MORE evidence than alternatives\n- Subject: \"间歇性断食\" (intermittent fasting)\n- Domain: \"长寿饮食方式\" (longevity/lifespan dietary approaches)\n- Comparison implied: vs other diets like Mediterranean, caloric restriction, ketogenic, etc.\n\nI need to search for evidence supporting this. Let me design search directions:\n\n1. Intermittent fasting and longevity - human clinical trials and meta-analyses\n2. Intermittent fasting biological mechanisms for lifespan extension (autophagy, mTOR, sirtuins)\n3. Animal studies showing IF extends lifespan\n4. Comparison of evidence base: IF vs Mediterranean diet vs caloric restriction for longevity\n5. Systematic reviews/meta-analyses count for intermittent fasting and aging/longevity\n6. IF effects on biomarkers of aging (inflammation, insulin sensitivity, oxidative stress)\n\nLet me do a batch_search with these directions.\n\n我目前没有任何证据，必须进行搜索。让我一次性提交关键方向来收集证据。\n\n**观点分析：**\n- 核心主张：间歇性断食在所有长寿饮食方式中，拥有\"最充分\"的科学证据\n- 需要证明：① IF本身有大量高质量证据支持其延寿效果 ② 与其他饮食方式（地中海饮食、热量限制、生酮等）横向比较，IF的证据基础更强\n\n**论证结构：** 多层证据金字塔 + 横向比较排除法",
+      "latency_s": 24.31,
+      "error": null
+    },
+    {
+      "id": 4,
+      "domain": "经济/房地产",
+      "claim": "房地产税是解决中国房价过高问题的最有效政策工具",
+      "subclaim_count": 5,
+      "subclaims": [
+        "房地产税抑制房价效果的国际经验证据（韩国、美国、日本等）",
+        "中国房地产税试点（上海重庆）对房价的抑制效果研究",
+        "房地产税与其他调控政策（限购限贷土地供给）相比对房价抑制效果更优的比较研究",
+        "房地产税通过增加持有成本抑制投机需求的经济学机制",
+        "中国学者支持房地产税是最有效房价调控工具的观点和研究"
+      ],
+      "thinking": "(无思考文本)",
+      "latency_s": 12.06,
+      "error": null
+    },
+    {
+      "id": 7,
+      "domain": "社会/劳动",
+      "claim": "远程办公的大规模普及正在不可逆地改变城市空间结构和劳动力市场",
+      "subclaim_count": 5,
+      "subclaims": [
+        "远程办公导致城市郊区化和人口从大城市中心向外迁移的趋势 2023-2026",
+        "远程办公普及后商业办公楼空置率上升且难以恢复",
+        "远程办公扩大了劳动力市场的地理范围改变了招聘和薪酬模式",
+        "企业永久采用混合办公模式的比例持续增长不可逆",
+        "远程办公导致城市房地产价格和租金空间分布重构"
+      ],
+      "thinking": "(无思考文本)",
+      "latency_s": 10.66,
+      "error": null
+    },
+    {
+      "id": 8,
+      "domain": "生物医学",
+      "claim": "肠道微生物组研究是近二十年来理解人类慢性疾病最重要的突破口",
+      "subclaim_count": 5,
+      "subclaims": [
+        "肠道微生物组与多种慢性疾病（糖尿病、肥胖、心血管病、癌症）的因果关系证据",
+        "肠道微生物组研究推动了精准医疗和新型疗法（粪菌移植、益生菌干预）的发展",
+        "肠道微生物组研究的科研投入和论文增长速度超过其他慢性病研究领域",
+        "肠道微生物组提供了跨疾病的统一机制解释（炎症、代谢、免疫调节）",
+        "Human Microbiome Project等大型项目标志着微生物组研究成为21世纪生物医学重大方向"
+      ],
+      "thinking": "(无思考文本)",
+      "latency_s": 10.62,
+      "error": null
+    },
+    {
+      "id": 9,
+      "domain": "文化/教育",
+      "claim": "短视频平台正在系统性地降低青少年的深度阅读能力和注意力持续时间",
+      "subclaim_count": 5,
+      "subclaims": [
+        "短视频（TikTok等）使用与青少年注意力持续时间缩短的实证研究",
+        "短视频平台使用导致青少年深度阅读能力下降的研究证据",
+        "短视频算法设计系统性地训练用户短注意力模式的机制分析",
+        "青少年屏幕时间增加与阅读理解能力下降的纵向研究数据",
+        "神经科学研究显示短视频消费改变青少年大脑注意力相关区域"
+      ],
+      "thinking": "(无思考文本)",
+      "latency_s": 9.64,
+      "error": null
+    },
+    {
+      "id": 10,
+      "domain": "国际关系",
+      "claim": "一带一路倡议从根本上重塑了发展中国家基础设施融资的全球格局",
+      "subclaim_count": 5,
+      "subclaims": [
+        "一带一路倡议累计投资规模超过万亿美元，成为发展中国家最大基础设施融资来源",
+        "一带一路倡议改变了世界银行和亚开行等传统多边开发银行在发展中国家基础设施融资中的主导地位",
+        "一带一路倡议推动了新型开发性金融机构如亚投行和丝路基金的建立",
+        "一带一路基础设施项目覆盖超过140个发展中国家改变了全球基建融资地理分布",
+        "一带一路倡议促使西方国家推出竞争性基础设施融资计划如B3W和全球门户"
+      ],
+      "thinking": "(无思考文本)",
+      "latency_s": 12.08,
+      "error": null
+    },
+    {
+      "id": 11,
+      "domain": "法律/科技伦理",
+      "claim": "算法推荐系统应当承担与传统媒体编辑同等的内容审查法律责任",
+      "subclaim_count": 5,
+      "subclaims": [
+        "算法推荐系统实质上履行了编辑选择和内容分发的把关人功能",
+        "欧盟数字服务法DSA要求平台对算法推荐内容承担审查责任的立法实践",
+        "算法推荐系统放大虚假信息和有害内容造成社会危害的实证案例",
+        "平台以中立技术工具为由规避内容责任的法律争议和批评",
+        "学者主张算法推荐系统应被视为内容发布者而非单纯中介的法律理论"
+      ],
+      "thinking": "(无思考文本)",
+      "latency_s": 10.16,
+      "error": null
+    },
+    {
+      "id": 12,
+      "domain": "人工智能",
+      "claim": "大语言模型的涌现能力证明了规模定律是通向通用人工智能的可行路径",
+      "subclaim_count": 5,
+      "subclaims": [
+        "大语言模型在规模增大时出现涌现能力的实证证据",
+        "规模定律(scaling laws)预测模型性能提升的可靠性证据",
+        "涌现能力作为通向AGI路径的理论论证",
+        "从GPT-2到GPT-4规模扩展带来的能力质变案例",
+        "支持规模主义(scaling hypothesis)通向AGI的研究者观点"
+      ],
+      "thinking": "(无思考文本)",
+      "latency_s": 11.46,
+      "error": null
+    }
+  ],
+  "full_results": [
+    {
+      "id": 2,
+      "domain": "计算机科学",
+      "user_type": "研究生/学者",
+      "claim": "知识图谱作为一种技术体系，是大数据时代知识工程的代表性进展",
+      "notes": "学术性较强，需要技术演进、应用、学术影响等维度",
+      "error": null,
+      "thinking": "The user wants me to find evidence for the claim \"知识图谱作为一种技术体系，是大数据时代知识工程的代表性进展\" (Knowledge graphs, as a technical system, represent a representative advancement of knowledge engineering in the big data era).\n\nI have 0 evidence so far and only 2 rounds left. I need to do one batch_search to gather evidence, then submit results. Let me design my search directions carefully.\n\nThe claim has several key components:\n1. Knowledge graphs as a \"technical system\" (技术体系) - not just a single technology\n2. Big data era (大数据时代) - temporal context\n3. Knowledge engineering (知识工程) - the field\n4. \"Representative advancement\" (代表性进展) - significance claim\n\nLet me design search directions that cover:\n1. The evolution from traditional knowledge engineering to knowledge graphs\n2. Knowledge graphs as a comprehensive technical system (construction, representation, reasoning, application)\n3. The relationship between big data and the emergence/necessity of knowledge graphs\n4. Academic/industry recognition of knowledge graphs as a milestone in knowledge engineering\n5. Comparison with other knowledge engineering approaches in the big data era\n\n当前0条证据，还剩2轮，我需要立即进行一次高效的批量搜索来收集证据。让我分析观点结构并设计搜索方向：\n\n**观点分析：**\n- \"知识图谱\"——核心技术对象\n- \"技术体系\"——强调不是单一技术，而是完整体系\n- \"大数据时代\"——时代背景\n- \"知识工程的代表性进展\"——在知识工程领域的地位判断\n\n需要证明：知识图谱在大数据时代背景下，作为一个完整技术体系，代表了知识工程领域的重要进展。",
+      "subclaims": [
+        {
+          "subclaim": "知识图谱是大数据时代知识工程的核心技术和代表性成果",
+          "topic_context": "知识工程发展历程中知识图谱的地位"
+        },
+        {
+          "subclaim": "知识图谱构成了完整的技术体系，包括知识表示、知识获取、知识存储、知识推理和知识应用等环节",
+          "topic_context": "知识图谱技术栈的系统性和完整性"
+        },
+        {
+          "subclaim": "大数据时代推动了知识工程从传统专家系统向知识图谱的范式转变",
+          "topic_context": "知识工程从专家系统到知识图谱的演进历史"
+        },
+        {
+          "subclaim": "Google、百度等企业大规模构建知识图谱标志着知识工程进入新阶段",
+          "topic_context": "工业界知识图谱实践推动知识工程发展"
+        },
+        {
+          "subclaim": "知识图谱融合了语义网、自然语言处理、机器学习等多种技术形成新的知识工程方法论",
+          "topic_context": "知识图谱的多学科技术融合特征"
+        },
+        {
+          "subclaim": "学术界将知识图谱视为新一代知识工程的重要研究方向和里程碑",
+          "topic_context": "知识图谱在学术界的定位和评价"
+        }
+      ],
+      "subclaim_count": 6,
+      "latency_s": 28.58
+    },
+    {
+      "id": 3,
+      "domain": "医学/健康",
+      "user_type": "关注健康的普通人",
+      "claim": "间歇性断食是目前科学证据最充分的长寿饮食方式",
+      "notes": "健康类声明，容易有偏见，需要区分人类实验和动物实验",
+      "error": null,
+      "thinking": "The user is telling me that I have 2 rounds left and currently have 0 pieces of evidence. I need to do a batch_search to gather evidence for the claim \"间歇性断食是目前科学证据最充分的长寿饮食方式\" (Intermittent fasting is the longevity diet with the most sufficient scientific evidence currently).\n\nLet me analyze this claim:\n- Key assertion: \"科学证据最充分\" (most sufficient scientific evidence) - this requires showing IF has MORE evidence than alternatives\n- Subject: \"间歇性断食\" (intermittent fasting)\n- Domain: \"长寿饮食方式\" (longevity/lifespan dietary approaches)\n- Comparison implied: vs other diets like Mediterranean, caloric restriction, ketogenic, etc.\n\nI need to search for evidence supporting this. Let me design search directions:\n\n1. Intermittent fasting and longevity - human clinical trials and meta-analyses\n2. Intermittent fasting biological mechanisms for lifespan extension (autophagy, mTOR, sirtuins)\n3. Animal studies showing IF extends lifespan\n4. Comparison of evidence base: IF vs Mediterranean diet vs caloric restriction for longevity\n5. Systematic reviews/meta-analyses count for intermittent fasting and aging/longevity\n6. IF effects on biomarkers of aging (inflammation, insulin sensitivity, oxidative stress)\n\nLet me do a batch_search with these directions.\n\n我目前没有任何证据，必须进行搜索。让我一次性提交关键方向来收集证据。\n\n**观点分析：**\n- 核心主张：间歇性断食在所有长寿饮食方式中，拥有\"最充分\"的科学证据\n- 需要证明：① IF本身有大量高质量证据支持其延寿效果 ② 与其他饮食方式（地中海饮食、热量限制、生酮等）横向比较，IF的证据基础更强\n\n**论证结构：** 多层证据金字塔 + 横向比较排除法",
+      "subclaims": [
+        {
+          "subclaim": "间歇性断食延长寿命的随机对照试验和Meta分析证据",
+          "topic_context": "间歇性断食与长寿/衰老的人体临床研究系统综述"
+        },
+        {
+          "subclaim": "间歇性断食通过自噬、mTOR抑制、sirtuins激活等机制延缓衰老的分子生物学证据",
+          "topic_context": "IF激活的抗衰老分子通路机制研究"
+        },
+        {
+          "subclaim": "间歇性断食在动物模型中延长寿命的实验证据",
+          "topic_context": "小鼠、线虫等模型中IF/时间限制进食延寿的研究"
+        },
+        {
+          "subclaim": "间歇性断食与地中海饮食、热量限制、生酮饮食相比在长寿研究中的证据数量和质量对比",
+          "topic_context": "不同长寿饮食方式的科学证据基础横向比较"
+        },
+        {
+          "subclaim": "间歇性断食改善衰老生物标志物的人体研究证据包括炎症指标胰岛素敏感性氧化应激",
+          "topic_context": "IF对人体衰老相关生物标志物的改善效果"
+        },
+        {
+          "subclaim": "2024-2026年间歇性断食长寿研究的最新进展和大型临床试验结果",
+          "topic_context": "近两年IF与寿命/健康寿命的最新研究突破"
+        }
+      ],
+      "subclaim_count": 6,
+      "latency_s": 24.31
+    },
+    {
+      "id": 4,
+      "domain": "经济/房地产",
+      "user_type": "财经媒体从业者",
+      "claim": "房地产税是解决中国房价过高问题的最有效政策工具",
+      "notes": "经济政策辩论，需要国内外对比、经济学理论、实际案例等",
+      "error": null,
+      "thinking": "(无思考文本)",
+      "subclaims": [
+        {
+          "subclaim": "房地产税抑制房价效果的国际经验证据（韩国、美国、日本等）",
+          "topic_context": "房地产税对房价的调控效果"
+        },
+        {
+          "subclaim": "中国房地产税试点（上海重庆）对房价的抑制效果研究",
+          "topic_context": "中国房产税试点政策效果"
+        },
+        {
+          "subclaim": "房地产税与其他调控政策（限购限贷土地供给）相比对房价抑制效果更优的比较研究",
+          "topic_context": "房价调控政策工具比较"
+        },
+        {
+          "subclaim": "房地产税通过增加持有成本抑制投机需求的经济学机制",
+          "topic_context": "房地产税抑制投机的理论机制"
+        },
+        {
+          "subclaim": "中国学者支持房地产税是最有效房价调控工具的观点和研究",
+          "topic_context": "中国房地产税政策讨论"
+        }
+      ],
+      "subclaim_count": 5,
+      "latency_s": 12.06
+    },
+    {
+      "id": 7,
+      "domain": "社会/劳动",
+      "user_type": "企业HR/管理者",
+      "claim": "远程办公的大规模普及正在不可逆地改变城市空间结构和劳动力市场",
+      "notes": "社会趋势类，涉及城市规划、房产、劳动经济学等",
+      "error": null,
+      "thinking": "(无思考文本)",
+      "subclaims": [
+        {
+          "subclaim": "远程办公导致城市郊区化和人口从大城市中心向外迁移的趋势 2023-2026",
+          "topic_context": "远程办公改变城市空间结构"
+        },
+        {
+          "subclaim": "远程办公普及后商业办公楼空置率上升且难以恢复",
+          "topic_context": "城市空间结构不可逆变化"
+        },
+        {
+          "subclaim": "远程办公扩大了劳动力市场的地理范围改变了招聘和薪酬模式",
+          "topic_context": "劳动力市场结构性变化"
+        },
+        {
+          "subclaim": "企业永久采用混合办公模式的比例持续增长不可逆",
+          "topic_context": "远程办公制度化锁定效应"
+        },
+        {
+          "subclaim": "远程办公导致城市房地产价格和租金空间分布重构",
+          "topic_context": "城市空间结构变化证据"
+        }
+      ],
+      "subclaim_count": 5,
+      "latency_s": 10.66
+    },
+    {
+      "id": 8,
+      "domain": "生物医学",
+      "user_type": "医学院学生",
+      "claim": "肠道微生物组研究是近二十年来理解人类慢性疾病最重要的突破口",
+      "notes": "前沿科学，需要区分已验证结论和初步发现",
+      "error": null,
+      "thinking": "(无思考文本)",
+      "subclaims": [
+        {
+          "subclaim": "肠道微生物组与多种慢性疾病（糖尿病、肥胖、心血管病、癌症）的因果关系证据",
+          "topic_context": "肠道微生物组研究突破"
+        },
+        {
+          "subclaim": "肠道微生物组研究推动了精准医疗和新型疗法（粪菌移植、益生菌干预）的发展",
+          "topic_context": "微生物组临床转化"
+        },
+        {
+          "subclaim": "肠道微生物组研究的科研投入和论文增长速度超过其他慢性病研究领域",
+          "topic_context": "研究热度对比"
+        },
+        {
+          "subclaim": "肠道微生物组提供了跨疾病的统一机制解释（炎症、代谢、免疫调节）",
+          "topic_context": "微生物组作为疾病枢纽机制"
+        },
+        {
+          "subclaim": "Human Microbiome Project等大型项目标志着微生物组研究成为21世纪生物医学重大方向",
+          "topic_context": "微生物组研究里程碑"
+        }
+      ],
+      "subclaim_count": 5,
+      "latency_s": 10.62
+    },
+    {
+      "id": 9,
+      "domain": "文化/教育",
+      "user_type": "中学教师/家长",
+      "claim": "短视频平台正在系统性地降低青少年的深度阅读能力和注意力持续时间",
+      "notes": "文化争议，需要实证研究、反面论据、跨文化比较",
+      "error": null,
+      "thinking": "(无思考文本)",
+      "subclaims": [
+        {
+          "subclaim": "短视频（TikTok等）使用与青少年注意力持续时间缩短的实证研究",
+          "topic_context": "短视频对青少年注意力的影响"
+        },
+        {
+          "subclaim": "短视频平台使用导致青少年深度阅读能力下降的研究证据",
+          "topic_context": "短视频与阅读能力"
+        },
+        {
+          "subclaim": "短视频算法设计系统性地训练用户短注意力模式的机制分析",
+          "topic_context": "平台设计与注意力"
+        },
+        {
+          "subclaim": "青少年屏幕时间增加与阅读理解能力下降的纵向研究数据",
+          "topic_context": "屏幕时间与阅读"
+        },
+        {
+          "subclaim": "神经科学研究显示短视频消费改变青少年大脑注意力相关区域",
+          "topic_context": "短视频与大脑发育"
+        }
+      ],
+      "subclaim_count": 5,
+      "latency_s": 9.64
+    },
+    {
+      "id": 10,
+      "domain": "国际关系",
+      "user_type": "政策研究人员",
+      "claim": "一带一路倡议从根本上重塑了发展中国家基础设施融资的全球格局",
+      "notes": "地缘政治，需要经济数据、区域案例、多方评价",
+      "error": null,
+      "thinking": "(无思考文本)",
+      "subclaims": [
+        {
+          "subclaim": "一带一路倡议累计投资规模超过万亿美元，成为发展中国家最大基础设施融资来源",
+          "topic_context": "BRI投资规模数据"
+        },
+        {
+          "subclaim": "一带一路倡议改变了世界银行和亚开行等传统多边开发银行在发展中国家基础设施融资中的主导地位",
+          "topic_context": "BRI vs 世界银行融资对比"
+        },
+        {
+          "subclaim": "一带一路倡议推动了新型开发性金融机构如亚投行和丝路基金的建立",
+          "topic_context": "亚投行丝路基金制度创新"
+        },
+        {
+          "subclaim": "一带一路基础设施项目覆盖超过140个发展中国家改变了全球基建融资地理分布",
+          "topic_context": "BRI覆盖国家范围"
+        },
+        {
+          "subclaim": "一带一路倡议促使西方国家推出竞争性基础设施融资计划如B3W和全球门户",
+          "topic_context": "G7 Build Back Better World 全球门户计划回应BRI"
+        }
+      ],
+      "subclaim_count": 5,
+      "latency_s": 12.08
+    },
+    {
+      "id": 11,
+      "domain": "法律/科技伦理",
+      "user_type": "法学院学生/互联网从业者",
+      "claim": "算法推荐系统应当承担与传统媒体编辑同等的内容审查法律责任",
+      "notes": "法律与科技交叉，需要法理、判例、各国立法比较",
+      "error": null,
+      "thinking": "(无思考文本)",
+      "subclaims": [
+        {
+          "subclaim": "算法推荐系统实质上履行了编辑选择和内容分发的把关人功能",
+          "topic_context": "算法推荐与传统媒体编辑的功能等价性"
+        },
+        {
+          "subclaim": "欧盟数字服务法DSA要求平台对算法推荐内容承担审查责任的立法实践",
+          "topic_context": "算法推荐系统内容审查法律责任"
+        },
+        {
+          "subclaim": "算法推荐系统放大虚假信息和有害内容造成社会危害的实证案例",
+          "topic_context": "算法推荐危害与责任"
+        },
+        {
+          "subclaim": "平台以中立技术工具为由规避内容责任的法律争议和批评",
+          "topic_context": "Section 230免责条款争议"
+        },
+        {
+          "subclaim": "学者主张算法推荐系统应被视为内容发布者而非单纯中介的法律理论",
+          "topic_context": "算法推荐法律定性"
+        }
+      ],
+      "subclaim_count": 5,
+      "latency_s": 10.16
+    },
+    {
+      "id": 12,
+      "domain": "人工智能",
+      "user_type": "AI创业者/投资人",
+      "claim": "大语言模型的涌现能力证明了规模定律是通向通用人工智能的可行路径",
+      "notes": "AI前沿争论，需要技术论据、批评声音、哲学层面讨论",
+      "error": null,
+      "thinking": "(无思考文本)",
+      "subclaims": [
+        {
+          "subclaim": "大语言模型在规模增大时出现涌现能力的实证证据",
+          "topic_context": "GPT-4、PaLM等模型随参数量增加突然获得新能力"
+        },
+        {
+          "subclaim": "规模定律(scaling laws)预测模型性能提升的可靠性证据",
+          "topic_context": "Kaplan/Chinchilla scaling laws准确预测loss下降"
+        },
+        {
+          "subclaim": "涌现能力作为通向AGI路径的理论论证",
+          "topic_context": "规模扩展可能足以实现通用人工智能的学术观点"
+        },
+        {
+          "subclaim": "从GPT-2到GPT-4规模扩展带来的能力质变案例",
+          "topic_context": "推理、编程、数学等能力随规模突破"
+        },
+        {
+          "subclaim": "支持规模主义(scaling hypothesis)通向AGI的研究者观点",
+          "topic_context": "Sutskever、Altman等人关于scale is all you need的论述"
+        }
+      ],
+      "subclaim_count": 5,
+      "latency_s": 11.46
+    }
+  ]
+}

@@ -92,6 +92,24 @@ MAIN_AGENT_TOOLS: list[dict] = [
             },
         },
     },
+    {
+        "type": "function",
+        "function": {
+            "name": "quick_search",
+            "description": "快速搜索以了解不熟悉的概念或验证事实。返回搜索结果的标题和摘要，不访问页面。用于规划搜索方向前的摸底，不用于深度证据收集。",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "queries": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "要快速查询的问题列表",
+                    },
+                },
+                "required": ["queries"],
+            },
+        },
+    },
 ]
 
 
@@ -175,6 +193,7 @@ class MainAgentHandler:
 ## 工作策略
 
 1. **分析观点**：先理解观点要证明什么，再设计搜索方向
+   - 如果观点中包含你不确定的概念、产品名、人物或事件，先用 quick_search 快速了解，再做规划
    - 识别观点中的关键主张词，思考每个词对证据的要求（例如："最有效"需要与替代方案横向比较；"不可逆"需要论证锁定机制；"被低估"需要解释低估的原因和证据）
    - 思考证明该观点最有力的论证结构是什么（例如：因果链、排除法、反事实分析、历史演进、多层证据金字塔等），然后按这个结构设计搜索方向
 2. **批量搜索**：将搜索方向一次性提交给 batch_search，系统会并行搜索
@@ -249,6 +268,32 @@ class MainAgentHandler:
         return await method(args)
 
     # ── 工具实现 ──────────────────────────────────────────
+
+    async def do_quick_search(self, args: dict) -> StepOutcome:
+        """快速搜索：返回标题和摘要，不访问页面，用于摸底。"""
+        from tools.search_tool import search
+
+        queries = args.get("queries", [])
+        if not queries:
+            return StepOutcome(data={"error": "queries 不能为空"})
+
+        logger.info("Main Agent 快速搜索: %d 个查询", len(queries))
+
+        async def _search_one(q: str) -> dict:
+            try:
+                results = await search(q, max_results=5)
+                return {
+                    "query": q,
+                    "results": [
+                        {"title": r.title, "snippet": r.snippet, "url": r.url}
+                        for r in results
+                    ],
+                }
+            except Exception as e:
+                return {"query": q, "error": str(e)}
+
+        all_results = await asyncio.gather(*[_search_one(q) for q in queries])
+        return StepOutcome(data={"searches": list(all_results)})
 
     async def do_batch_search(self, args: dict) -> StepOutcome:
         """并行搜索多个子观点方向。"""

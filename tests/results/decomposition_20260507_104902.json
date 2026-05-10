@@ -1,0 +1,63 @@
+{
+  "test_time": "2026-05-07T10:49:02.473372",
+  "model": "claude-opus-4-6",
+  "total_claims": 1,
+  "summary": [
+    {
+      "id": 6,
+      "domain": "历史",
+      "claim": "郑和下西洋对世界航海史的实际贡献被严重低估了",
+      "subclaim_count": 6,
+      "subclaims": [
+        "郑和宝船船队规模和造船技术远超同时代欧洲哥伦布船队",
+        "郑和下西洋使用的航海导航技术包括牵星术和罗盘领先欧洲数十年",
+        "郑和七次远洋航行开辟的印度洋航线促进了亚非贸易网络形成",
+        "西方学术界近年重新评价郑和航海对世界航海史的贡献",
+        "郑和航海图《武备志》海图是15世纪最详细的远洋航海图之一",
+        "欧洲中心主义史观导致郑和下西洋在世界航海史叙事中被边缘化"
+      ],
+      "thinking": "The user is asking me to research the claim \"郑和下西洋对世界航海史的实际贡献被严重低估了\" (Zheng He's voyages to the Western Seas' actual contributions to world maritime history have been seriously underestimated). I currently have 0 pieces of evidence and only 2 rounds left. I need to do a batch_search to gather evidence, then submit results.\n\nLet me think about the angles to search:\n\n1. 郑和船队的规模和技术水平远超同时代欧洲航海 - comparing fleet size and technology\n2. 郑和航海使用的导航技术和海图对后世的影响 - navigation technology and charts\n3. 郑和下西洋促进了印度洋贸易网络的形成 - trade network formation\n4. 西方学术界对郑和航海贡献的重新评价 - Western academic reassessment\n5. 郑和航海的造船技术代表了当时世界最高水平 - shipbuilding technology\n6. 郑和下西洋的外交和文化交流成就 - diplomatic and cultural achievements\n7. 郑和航海路线和地理发现的学术研究 - route and geographical discoveries\n\nLet me submit a batch search with these subclaims.\n\n当前0条证据，必须抓紧仅剩的机会。我先进行一次全面的批量搜索，覆盖尽可能多的角度。",
+      "latency_s": 26.63,
+      "error": null
+    }
+  ],
+  "full_results": [
+    {
+      "id": 6,
+      "domain": "历史",
+      "user_type": "历史爱好者/学生",
+      "claim": "郑和下西洋对世界航海史的实际贡献被严重低估了",
+      "notes": "历史评价类，需要史料、国际比较、学术争论等维度",
+      "error": null,
+      "thinking": "The user is asking me to research the claim \"郑和下西洋对世界航海史的实际贡献被严重低估了\" (Zheng He's voyages to the Western Seas' actual contributions to world maritime history have been seriously underestimated). I currently have 0 pieces of evidence and only 2 rounds left. I need to do a batch_search to gather evidence, then submit results.\n\nLet me think about the angles to search:\n\n1. 郑和船队的规模和技术水平远超同时代欧洲航海 - comparing fleet size and technology\n2. 郑和航海使用的导航技术和海图对后世的影响 - navigation technology and charts\n3. 郑和下西洋促进了印度洋贸易网络的形成 - trade network formation\n4. 西方学术界对郑和航海贡献的重新评价 - Western academic reassessment\n5. 郑和航海的造船技术代表了当时世界最高水平 - shipbuilding technology\n6. 郑和下西洋的外交和文化交流成就 - diplomatic and cultural achievements\n7. 郑和航海路线和地理发现的学术研究 - route and geographical discoveries\n\nLet me submit a batch search with these subclaims.\n\n当前0条证据，必须抓紧仅剩的机会。我先进行一次全面的批量搜索，覆盖尽可能多的角度。",
+      "subclaims": [
+        {
+          "subclaim": "郑和宝船船队规模和造船技术远超同时代欧洲哥伦布船队",
+          "topic_context": "郑和下西洋航海史贡献"
+        },
+        {
+          "subclaim": "郑和下西洋使用的航海导航技术包括牵星术和罗盘领先欧洲数十年",
+          "topic_context": "郑和航海技术成就"
+        },
+        {
+          "subclaim": "郑和七次远洋航行开辟的印度洋航线促进了亚非贸易网络形成",
+          "topic_context": "郑和下西洋贸易与外交影响"
+        },
+        {
+          "subclaim": "西方学术界近年重新评价郑和航海对世界航海史的贡献",
+          "topic_context": "郑和航海史学术研究重新评价"
+        },
+        {
+          "subclaim": "郑和航海图《武备志》海图是15世纪最详细的远洋航海图之一",
+          "topic_context": "郑和航海制图学贡献"
+        },
+        {
+          "subclaim": "欧洲中心主义史观导致郑和下西洋在世界航海史叙事中被边缘化",
+          "topic_context": "航海史叙事中的欧洲中心主义偏见"
+        }
+      ],
+      "subclaim_count": 6,
+      "latency_s": 26.63
+    }
+  ]
+}

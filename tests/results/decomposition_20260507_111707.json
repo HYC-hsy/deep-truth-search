@@ -1,0 +1,68 @@
+{
+  "test_time": "2026-05-07T11:17:07.737384",
+  "model": "claude-opus-4-6",
+  "total_claims": 1,
+  "summary": [
+    {
+      "id": 9,
+      "domain": "文化/教育",
+      "claim": "短视频平台正在系统性地降低青少年的深度阅读能力和注意力持续时间",
+      "subclaim_count": 7,
+      "subclaims": [
+        "TikTok等短视频平台的算法推荐机制通过持续提供即时奖励刺激，缩短了青少年的注意力持续时间",
+        "研究表明频繁使用短视频的青少年在深度阅读理解测试中表现显著低于低使用者",
+        "神经影像学研究发现短视频重度使用者的前额叶皮层活动模式发生改变，影响持续注意力和认知控制",
+        "全球青少年平均注意力持续时间在短视频平台普及后出现显著下降趋势",
+        "中国和其他国家已出台限制青少年短视频使用时长的政策，因为认定其对认知发展有害",
+        "短视频的碎片化信息呈现方式与深度阅读所需的线性思维和长时间专注能力形成结构性冲突",
+        "教育工作者报告学生课堂注意力和长文本阅读意愿在短视频时代明显下降"
+      ],
+      "thinking": "The user is asking me to research the claim that \"short video platforms are systematically reducing adolescents' deep reading ability and attention span.\" I have 0 evidence so far and 2 rounds remaining. I need to do a batch search to gather evidence, then submit results.\n\nLet me analyze this claim and identify key angles to search:\n\n1. Short video platforms (TikTok, Douyin, etc.) and their impact on attention span\n2. Research on adolescent deep reading ability decline related to social media/short videos\n3. Neuroscience evidence on how short-form video affects brain development\n4. Screen time and cognitive development in teenagers\n5. Algorithmic design of short video platforms and addictive mechanisms\n6. Comparative studies on reading comprehension before and after short video era\n7. Policy responses from governments regarding youth screen time\n\nLet me submit a batch search with these directions.\n\n我来分析这个观点并从多个角度进行搜索。这个观点涉及：短视频平台的算法机制、青少年注意力变化的实证研究、深度阅读能力下降的证据、神经科学层面的影响、以及政策回应等方面。",
+      "latency_s": 18.6,
+      "error": null
+    }
+  ],
+  "full_results": [
+    {
+      "id": 9,
+      "domain": "文化/教育",
+      "user_type": "中学教师/家长",
+      "claim": "短视频平台正在系统性地降低青少年的深度阅读能力和注意力持续时间",
+      "notes": "文化争议，需要实证研究、反面论据、跨文化比较",
+      "error": null,
+      "thinking": "The user is asking me to research the claim that \"short video platforms are systematically reducing adolescents' deep reading ability and attention span.\" I have 0 evidence so far and 2 rounds remaining. I need to do a batch search to gather evidence, then submit results.\n\nLet me analyze this claim and identify key angles to search:\n\n1. Short video platforms (TikTok, Douyin, etc.) and their impact on attention span\n2. Research on adolescent deep reading ability decline related to social media/short videos\n3. Neuroscience evidence on how short-form video affects brain development\n4. Screen time and cognitive development in teenagers\n5. Algorithmic design of short video platforms and addictive mechanisms\n6. Comparative studies on reading comprehension before and after short video era\n7. Policy responses from governments regarding youth screen time\n\nLet me submit a batch search with these directions.\n\n我来分析这个观点并从多个角度进行搜索。这个观点涉及：短视频平台的算法机制、青少年注意力变化的实证研究、深度阅读能力下降的证据、神经科学层面的影响、以及政策回应等方面。",
+      "subclaims": [
+        {
+          "subclaim": "TikTok等短视频平台的算法推荐机制通过持续提供即时奖励刺激，缩短了青少年的注意力持续时间",
+          "topic_context": "短视频平台算法设计与青少年注意力"
+        },
+        {
+          "subclaim": "研究表明频繁使用短视频的青少年在深度阅读理解测试中表现显著低于低使用者",
+          "topic_context": "短视频使用与阅读能力实证研究"
+        },
+        {
+          "subclaim": "神经影像学研究发现短视频重度使用者的前额叶皮层活动模式发生改变，影响持续注意力和认知控制",
+          "topic_context": "短视频对青少年大脑发育的神经科学证据"
+        },
+        {
+          "subclaim": "全球青少年平均注意力持续时间在短视频平台普及后出现显著下降趋势",
+          "topic_context": "注意力持续时间的纵向变化数据"
+        },
+        {
+          "subclaim": "中国和其他国家已出台限制青少年短视频使用时长的政策，因为认定其对认知发展有害",
+          "topic_context": "各国针对青少年短视频使用的监管政策"
+        },
+        {
+          "subclaim": "短视频的碎片化信息呈现方式与深度阅读所需的线性思维和长时间专注能力形成结构性冲突",
+          "topic_context": "短视频内容形式对认知模式的影响"
+        },
+        {
+          "subclaim": "教育工作者报告学生课堂注意力和长文本阅读意愿在短视频时代明显下降",
+          "topic_context": "教师观察与教育现场反馈"
+        }
+      ],
+      "subclaim_count": 7,
+      "latency_s": 18.6
+    }
+  ]
+}

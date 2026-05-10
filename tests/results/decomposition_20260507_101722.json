@@ -1,0 +1,63 @@
+{
+  "test_time": "2026-05-07T10:17:22.611249",
+  "model": "claude-opus-4-6",
+  "total_claims": 1,
+  "summary": [
+    {
+      "id": 2,
+      "domain": "计算机科学",
+      "claim": "知识图谱作为一种技术体系，是大数据时代知识工程的代表性进展",
+      "subclaim_count": 6,
+      "subclaims": [
+        "知识图谱是大数据时代知识工程的核心技术，代表了从传统专家系统到大规模知识自动获取的范式转变",
+        "知识图谱技术体系包含知识表示、知识获取、知识存储、知识推理等完整技术栈",
+        "Google知识图谱2012年发布标志着大规模知识图谱进入工业应用阶段",
+        "知识图谱在金融风控、医疗诊断、智能搜索等大数据场景中广泛应用",
+        "中国学者将知识图谱定位为大数据时代知识工程的重要研究方向和代表性成果",
+        "知识图谱与深度学习结合推动了新一代人工智能知识驱动发展"
+      ],
+      "thinking": "The user is asking me to research the claim \"知识图谱作为一种技术体系，是大数据时代知识工程的代表性进展\" (Knowledge graphs as a technical system represent a significant advancement in knowledge engineering in the big data era). \n\nI currently have 0 pieces of evidence and only 2 rounds left. I need to do a batch_search to gather evidence, then submit results. Let me think about the angles to search:\n\n1. Knowledge graphs as a technical system - their architecture and components\n2. Knowledge graphs emerging in the big data era (Google Knowledge Graph 2012, etc.)\n3. Knowledge engineering evolution from expert systems to knowledge graphs\n4. Academic recognition of knowledge graphs as knowledge engineering progress\n5. Industry applications of knowledge graphs in big data scenarios\n6. Chinese national policies/standards related to knowledge graphs\n\nLet me search for these angles now.\n\n当前0条证据，还剩2轮，我需要立即进行一次全面搜索来收集证据。",
+      "latency_s": 18.24,
+      "error": null
+    }
+  ],
+  "full_results": [
+    {
+      "id": 2,
+      "domain": "计算机科学",
+      "user_type": "研究生/学者",
+      "claim": "知识图谱作为一种技术体系，是大数据时代知识工程的代表性进展",
+      "notes": "学术性较强，需要技术演进、应用、学术影响等维度",
+      "error": null,
+      "thinking": "The user is asking me to research the claim \"知识图谱作为一种技术体系，是大数据时代知识工程的代表性进展\" (Knowledge graphs as a technical system represent a significant advancement in knowledge engineering in the big data era). \n\nI currently have 0 pieces of evidence and only 2 rounds left. I need to do a batch_search to gather evidence, then submit results. Let me think about the angles to search:\n\n1. Knowledge graphs as a technical system - their architecture and components\n2. Knowledge graphs emerging in the big data era (Google Knowledge Graph 2012, etc.)\n3. Knowledge engineering evolution from expert systems to knowledge graphs\n4. Academic recognition of knowledge graphs as knowledge engineering progress\n5. Industry applications of knowledge graphs in big data scenarios\n6. Chinese national policies/standards related to knowledge graphs\n\nLet me search for these angles now.\n\n当前0条证据，还剩2轮，我需要立即进行一次全面搜索来收集证据。",
+      "subclaims": [
+        {
+          "subclaim": "知识图谱是大数据时代知识工程的核心技术，代表了从传统专家系统到大规模知识自动获取的范式转变",
+          "topic_context": "知识工程发展历程与知识图谱的技术定位"
+        },
+        {
+          "subclaim": "知识图谱技术体系包含知识表示、知识获取、知识存储、知识推理等完整技术栈",
+          "topic_context": "知识图谱作为完整技术体系的组成"
+        },
+        {
+          "subclaim": "Google知识图谱2012年发布标志着大规模知识图谱进入工业应用阶段",
+          "topic_context": "知识图谱产业发展里程碑"
+        },
+        {
+          "subclaim": "知识图谱在金融风控、医疗诊断、智能搜索等大数据场景中广泛应用",
+          "topic_context": "知识图谱的行业应用价值"
+        },
+        {
+          "subclaim": "中国学者将知识图谱定位为大数据时代知识工程的重要研究方向和代表性成果",
+          "topic_context": "学术界对知识图谱地位的认定"
+        },
+        {
+          "subclaim": "知识图谱与深度学习结合推动了新一代人工智能知识驱动发展",
+          "topic_context": "知识图谱与AI融合的前沿进展"
+        }
+      ],
+      "subclaim_count": 6,
+      "latency_s": 18.24
+    }
+  ]
+}
