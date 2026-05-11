@@ -143,7 +143,6 @@ async def run_agent_loop(
         assistant_msg: dict = {"role": "assistant"}
         if response.content:
             assistant_msg["content"] = response.content
-            logger.info("Turn %d think: %s", turn, response.content[:200])
             if on_step:
                 on_step("think", response.content)
         else:

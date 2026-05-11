@@ -82,21 +82,14 @@ SEARCH_AGENT_TOOLS: list[dict] = [
 # ── 证据提取 Prompt ──────────────────────────────────────────
 
 EXTRACT_EVIDENCE_PROMPT = """\
-你是一个证据提取专家。
-
-你的任务：从给定的网页内容中，提取与子观点相关的证据。
+你是一个证据提取专家。从网页内容中提取与子观点相关的证据。
 
 ## 提取原则
 
-1. 只提取与子观点直接相关的内容
-2. 证据摘要应包含具体事实、数据、引用，而非笼统描述
-3. 每条证据独立完整，不依赖上下文理解
-4. 如果页面内容与子观点无关，返回空列表
-5. 证据摘要用中文表达（如果原文是英文，翻译为中文并保留关键术语）
-
-## 输出格式
-
-返回 JSON 对象，包含 evidences 数组。每条证据包含 evidence_text（证据摘要文本）。
+1. 每条证据应是一个完整的、能独立阅读的论据，包含具体事实、数据或引用
+2. 描述同一件事的相邻内容应整合为一条证据，不要拆成碎片
+3. 如果页面内容与子观点无关，返回空列表
+4. 证据用中文表达（英文原文翻译为中文并保留关键术语）
 """
 
 
@@ -461,7 +454,7 @@ class SearchAgentHandler:
 
         try:
             if _is_claude_model():
-                # Claude：使用 tool_use + 扁平 string 数组，避免代理序列化嵌套对象时出错
+                # Claude：使用 tool_use 保证 JSON 完整性（避免文本输出被代理截断）
                 tool_schema = {
                     "type": "object",
                     "properties": {
@@ -483,7 +476,6 @@ class SearchAgentHandler:
                     max_tokens=8192,
                 )
                 evidence_texts = raw.get("evidences", []) if isinstance(raw, dict) else []
-                # 兜底：如果代理仍然把数组序列化为字符串
                 if isinstance(evidence_texts, str):
                     import json as _json
                     try:
@@ -491,7 +483,6 @@ class SearchAgentHandler:
                     except Exception:
                         evidence_texts = [evidence_texts]
             else:
-                # 非 Claude 模型：使用 JSON mode
                 class ExtractedEvidence(BaseModel):
                     evidence_text: str = Field(description="证据摘要文本")
                 class ExtractionResult(BaseModel):
@@ -506,8 +497,10 @@ class SearchAgentHandler:
                 )
                 evidence_texts = [ev.evidence_text for ev in result.evidences]
         except Exception as e:
-            logger.warning("LLM 证据提取失败 (%s): %s", url[:60], e)
+            logger.warning("LLM 证据提取失败 (%s): %s %s", url[:60], type(e).__name__, e)
             return []
+
+        logger.info("证据提取 [%s] %s: %d 条", domain, title[:30], len(evidence_texts))
 
         items: list[EvidenceItem] = []
         for text in evidence_texts:

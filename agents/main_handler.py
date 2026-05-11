@@ -110,6 +110,58 @@ MAIN_AGENT_TOOLS: list[dict] = [
             },
         },
     },
+    {
+        "type": "function",
+        "function": {
+            "name": "confirm_results",
+            "description": "审阅证据概览后，确认提交最终结果。可以移除、重写、合并证据和论点。",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "remove_evidence_ids": {
+                        "type": "array",
+                        "items": {"type": "integer"},
+                        "description": "要移除的证据编号列表",
+                    },
+                    "rewrite_evidences": {
+                        "type": "array",
+                        "description": "需要重写的证据，用于修复碎片化、合并重复、或改写不完整的证据",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "evidence_ids": {
+                                    "type": "array",
+                                    "items": {"type": "integer"},
+                                    "description": "要替换的原证据编号（可以是多条碎片合并为一条）",
+                                },
+                                "new_text": {
+                                    "type": "string",
+                                    "description": "重写后的证据文本",
+                                },
+                            },
+                            "required": ["evidence_ids", "new_text"],
+                        },
+                    },
+                    "merge_claims": {
+                        "type": "array",
+                        "description": "需要合并的论点组",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "new_title": {"type": "string", "description": "合并后的论点标题"},
+                                "claim_indices": {
+                                    "type": "array",
+                                    "items": {"type": "integer"},
+                                    "description": "要合并的原论点编号列表",
+                                },
+                            },
+                            "required": ["new_title", "claim_indices"],
+                        },
+                    },
+                },
+            },
+        },
+    },
 ]
 
 
@@ -206,7 +258,8 @@ class MainAgentHandler:
    - 哪些方向失败或证据不足，需要补搜？
    - 是否有遗漏的重要角度？
 4. **补充搜索**（可选）：对不足的方向再调用一次 batch_search 补搜
-5. **组织输出**：证据充足后，调用 submit_results 按论点组织最终结果
+5. **组织输出**：证据充足后，调用 submit_results 按论点组织证据
+6. **审阅整理**：submit_results 会返回完整的证据概览。以用户视角审阅每条证据和论点组织，确保最终呈现的质量值得用户信赖，然后调用 confirm_results 确认提交
 
 ## 约束
 
@@ -502,6 +555,170 @@ class MainAgentHandler:
             reverse=True,
         )
 
+        # 暂存待审阅的 claims，生成概览供 LLM 一次性审阅
+        self._pending_claims = claims
+
+        # 生成证据概览（头尾截取，控制总量）
+        preview_lines = []
+        evidence_id = 1
+        for ci, cl in enumerate(claims):
+            preview_lines.append(f"\n## 论点 {ci + 1}：{cl.claim_title}（{len(cl.evidences)} 条证据）")
+            for ev in cl.evidences:
+                score_str = f"{ev.score.total_score:.0f}分" if ev.score else "无评分"
+                t = ev.evidence_text
+                if len(t) > 40:
+                    t = t[:20] + "..." + t[-20:]
+                preview_lines.append(f"  [{evidence_id}] ({score_str}) {ev.source_title or ev.source_domain}: {t}")
+                evidence_id += 1
+            preview_lines.append("")
+
+        total = sum(len(c.evidences) for c in claims)
+        preview = "\n".join(preview_lines)
+
+        preview_chars = len(preview)
+        logger.info("submit_results 生成概览: %d 论点, %d 条证据待审阅 (概览 %d 字)",
+                     len(claims), total, preview_chars)
+        for ci, cl in enumerate(claims):
+            logger.info("  论点 %d '%s': %d 条证据", ci + 1, cl.claim_title[:30], len(cl.evidences))
+
+        return StepOutcome(data={
+            "status": "pending_review",
+            "message": f"已整理 {len(claims)} 个论点共 {total} 条证据。"
+                       "请审阅以下概览，以用户视角确保最终呈现的质量值得信赖，然后调用 confirm_results 确认提交。"
+                       "你也可以选择不提交而是调用 batch_search 进行补充搜索。",
+            "preview": preview,
+        })
+
+    async def do_confirm_results(self, args: dict) -> StepOutcome:
+        """审阅后确认提交最终结果。"""
+        claims = getattr(self, '_pending_claims', None)
+        if not claims:
+            logger.warning("confirm_results 调用时无待审阅结果，使用兜底")
+            return StepOutcome(data=self._build_fallback_output(), should_exit=True)
+
+        remove_ids = set(args.get("remove_evidence_ids", []))
+        rewrite_groups = args.get("rewrite_evidences", [])
+        merge_groups = args.get("merge_claims", [])
+
+        # 审阅前状态
+        before_claims = len(claims)
+        before_evidence = sum(len(c.evidences) for c in claims)
+        logger.info("confirm_results 审阅前: %d 论点, %d 条证据", before_claims, before_evidence)
+        logger.info("  LLM 要求移除证据编号: %s", sorted(remove_ids) if remove_ids else "无")
+        logger.info("  LLM 要求重写证据: %d 组", len(rewrite_groups))
+        logger.info("  LLM 要求合并论点: %s", merge_groups if merge_groups else "无")
+
+        # 执行证据重写（在移除之前，因为重写可能涉及要被移除的编号）
+        if rewrite_groups:
+            # 建立 evidence_id → (claim_index, evidence_index) 的映射
+            id_to_pos: dict[int, tuple[int, int]] = {}
+            eid = 1
+            for ci, cl in enumerate(claims):
+                for ei in range(len(cl.evidences)):
+                    id_to_pos[eid] = (ci, ei)
+                    eid += 1
+
+            rewrite_remove_ids: set[int] = set()  # 被重写替换掉的原始编号
+            for group in rewrite_groups:
+                old_ids = group.get("evidence_ids", [])
+                new_text = group.get("new_text", "")
+                if not old_ids or not new_text:
+                    continue
+
+                # 找到第一条原始证据作为模板（保留来源信息）
+                first_pos = id_to_pos.get(old_ids[0])
+                if not first_pos:
+                    continue
+                ci, ei = first_pos
+                template_ev = claims[ci].evidences[ei]
+
+                # 用重写文本替换第一条
+                template_ev.evidence_text = new_text.strip()
+
+                # 标记其余编号为待移除
+                for oid in old_ids[1:]:
+                    rewrite_remove_ids.add(oid)
+
+                logger.info("  重写证据 %s → '%s'", old_ids, new_text[:60])
+
+            # 把重写产生的待移除编号合并到 remove_ids
+            remove_ids |= rewrite_remove_ids
+
+        # 执行证据移除
+        if remove_ids:
+            evidence_id = 1
+            removed_details = []
+            for cl in claims:
+                filtered = []
+                for ev in cl.evidences:
+                    if evidence_id not in remove_ids:
+                        filtered.append(ev)
+                    else:
+                        removed_details.append(f"    [{evidence_id}] {ev.source_domain}: {ev.evidence_text[:60]}")
+                    evidence_id += 1
+                cl.evidences = filtered
+            # 移除空论点
+            empty_after_remove = [c.claim_title for c in claims if not c.evidences]
+            claims = [c for c in claims if c.evidences]
+            logger.info("confirm_results 移除 %d 条证据:", len(remove_ids))
+            for detail in removed_details[:20]:  # 最多打印20条
+                logger.info(detail)
+            if len(removed_details) > 20:
+                logger.info("    ... 及其他 %d 条", len(removed_details) - 20)
+            if empty_after_remove:
+                logger.info("  移除后变空的论点: %s", [t[:30] for t in empty_after_remove])
+
+        # 执行论点合并
+        if merge_groups:
+            merged_indices = set()
+            new_claims = []
+            for group in merge_groups:
+                indices = group.get("claim_indices", [])
+                new_title = group.get("new_title", "")
+                merged_evidences = []
+                seen = set()
+                for idx in indices:
+                    ci = idx - 1  # 转为 0-based
+                    if 0 <= ci < len(claims):
+                        merged_indices.add(ci)
+                        for ev in claims[ci].evidences:
+                            key = (ev.source_url, ev.evidence_text)
+                            if key not in seen:
+                                merged_evidences.append(ev)
+                                seen.add(key)
+                if merged_evidences:
+                    merged_evidences.sort(
+                        key=lambda e: e.score.total_score if e.score else 0,
+                        reverse=True,
+                    )
+                    new_claims.append(ClaimResult(
+                        claim_title=new_title,
+                        evidences=merged_evidences,
+                    ))
+                logger.info("  合并论点 %s → '%s' (%d 条证据)",
+                           indices, new_title[:40], len(merged_evidences))
+            # 保留未被合并的论点
+            remaining = [c for i, c in enumerate(claims) if i not in merged_indices]
+            claims = new_claims + remaining
+            logger.info("confirm_results 合并 %d 组论点", len(merge_groups))
+
+        # 审阅后状态
+        after_claims = len(claims)
+        after_evidence = sum(len(c.evidences) for c in claims)
+        logger.info("confirm_results 审阅后: %d 论点, %d 条证据 (移除 %d, 论点变化 %d→%d)",
+                     after_claims, after_evidence,
+                     before_evidence - after_evidence,
+                     before_claims, after_claims)
+        for cl in claims:
+            logger.info("  论点 '%s': %d 条证据", cl.claim_title[:40], len(cl.evidences))
+
+        # 最终排序
+        claims.sort(
+            key=lambda c: max((e.score.total_score for e in c.evidences if e.score), default=0),
+            reverse=True,
+        )
+
+        # 最终提交
         output = ResearchOutput(
             query=self.query,
             claims=claims,
@@ -510,17 +727,18 @@ class MainAgentHandler:
             completed_at=datetime.now(),
         )
 
-        # 递增任务计数（P5-J1 周期整合用）
+        # 递增任务计数
         try:
             from memory.source_memory import get_source_repository
             task_count = get_source_repository().increment_task_count()
-            logger.info("Main Agent 提交结果: %d 论点, %d 证据 (累计任务 #%d)",
+            logger.info("Main Agent 确认提交: %d 论点, %d 证据 (累计任务 #%d)",
                          len(claims), output.total_evidences, task_count)
         except Exception as e:
             logger.warning("任务计数更新失败: %s", e)
-            logger.info("Main Agent 提交结果: %d 论点, %d 证据",
+            logger.info("Main Agent 确认提交: %d 论点, %d 证据",
                          len(claims), output.total_evidences)
 
+        self._pending_claims = None
         return StepOutcome(data=output, should_exit=True)
 
     # ── 内部辅助 ──────────────────────────────────────────
