@@ -558,7 +558,7 @@ class MainAgentHandler:
         # 暂存待审阅的 claims，生成概览供 LLM 一次性审阅
         self._pending_claims = claims
 
-        # 生成证据概览（头尾截取，控制总量）
+        # 生成证据概览（头30+尾30截取，附带子观点来源）
         preview_lines = []
         evidence_id = 1
         for ci, cl in enumerate(claims):
@@ -566,9 +566,13 @@ class MainAgentHandler:
             for ev in cl.evidences:
                 score_str = f"{ev.score.total_score:.0f}分" if ev.score else "无评分"
                 t = ev.evidence_text
-                if len(t) > 40:
-                    t = t[:20] + "..." + t[-20:]
-                preview_lines.append(f"  [{evidence_id}] ({score_str}) {ev.source_title or ev.source_domain}: {t}")
+                if len(t) > 60:
+                    t = t[:30] + "..." + t[-30:]
+                sc = ev.claim or ""
+                if len(sc) > 30:
+                    sc = sc[:15] + "..." + sc[-15:]
+                subclaim_tag = f"[来自: {sc}]" if sc else ""
+                preview_lines.append(f"  [{evidence_id}] ({score_str}) {ev.source_domain} {subclaim_tag}: {t}")
                 evidence_id += 1
             preview_lines.append("")
 
