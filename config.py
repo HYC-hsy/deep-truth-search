@@ -55,7 +55,7 @@ class ScoringLLMConfig:
 
 # ── 搜索 API 配置 ────────────────────────────────────────────
 class SearchConfig:
-    provider: str = _get("SEARCH_PROVIDER", "tavily")
+    provider: str = _get("SEARCH_PROVIDER", "serper")
     api_key: str  = _get("SEARCH_API_KEY")
 
 

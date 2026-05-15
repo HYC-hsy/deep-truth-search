@@ -1,326 +1,288 @@
 # Deep Truth Search
 
-**一个越用越聪明的开源证据搜索研究助手。**
+A research agent that finds supporting evidence for your claims — and learns where to look.
 
-> [English Version](README_EN.md)
+> [中文版](README_CN.md)
 
----
+![Home](docs/screenshots/home.png)
 
-## 这个项目是什么
+## What it does
 
-你有一个观点，想找证据支撑它——或者反驳它。
+You have a claim. You need evidence.
 
-普通搜索引擎会给你一堆链接。你需要自己逐个打开、判断质量、筛选有用的。这很慢，也很累。
+Give it a claim, and it will:
+1. Break it into multiple research angles (technical, academic, policy, etc.)
+2. Search the web in parallel, visiting and reading actual pages
+3. Score each source on five quality dimensions, dropping anything below threshold
+4. Return structured arguments + evidence, each with source links and score breakdowns
 
-**Deep Truth Search 帮你做这件事。**
-
-输入一个观点，系统会：
-1. 自动拆解成多个搜索方向
-2. 并行深度搜索，访问真实页面
-3. 逐页评估质量，过滤低质量来源
-4. 返回结构化的「论点 + 论据」，每条附带来源链接和评分
-
-你只需要做最后一步：**从大量高质量证据中，自己判断**。
-
-![首页](docs/screenshots/home.png)
+You do the last part: read the evidence, make up your own mind.
 
 ---
 
-## 为什么做这个项目
+## Design Philosophy
 
-### 现有工具的问题
+> **No judgments. Just evidence — lots of it, high quality.**
 
-| 问题 | 说明 |
-|------|------|
-| 搜索结果多，有效证据少 | 搜索引擎优化的是"找到信息"，不是"找到证据" |
-| 好来源差来源混在一起 | 用户很难快速判断一个页面是否可信 |
-| 每次搜索都从零开始 | 系统不记得哪些来源过去表现好 |
-| 缺少质量评估 | 没有工具帮你评估来源的权威性、准确性 |
+This isn't a tool that hands you conclusions. It searches deep, searches wide, and gives you traceable, scored evidence. You decide what it means.
 
-### 设计哲学
+**It works for your claim, not against it.**
 
-> **不替用户做判断，只负责提供大量高质量证据。**
+If you type "X is the best mayor this city has ever had", the system:
+- Won't tone it down to "X is a good mayor"
+- Won't surface counterarguments because critics happen to be louder online
+- Won't rewrite your claim into something more "balanced"
 
-这不是一个"给你答案"的工具。它是一个**证据搜集工具**——搜得深、搜得广、质量可评估、来源可追溯。最终的判断权始终在你手里。
+Whatever you put in, it faithfully finds supporting evidence. No rewording, no redirecting, no second-guessing.
 
 ---
 
-## 核心特色
+## Key Features
 
-### 1. 专为「观点找证据」设计
+### 1. Purpose-built for evidence gathering
 
-这不是通用搜索，也不是 AI 聊天。系统围绕一个核心场景优化：**你有一个观点，需要找到支撑它的证据。**
+Not general search. Not a chatbot. One job: you have a claim, it finds evidence.
 
-系统会自动将观点拆解为多个子方向（技术、应用、学术、政策等），并行搜索后汇总。比单一关键词搜索覆盖面广得多。
+It decomposes your claim into sub-angles and searches them in parallel — much broader coverage than a single query.
 
-![并行搜索](docs/screenshots/searching-progress.png)
+![Parallel search](docs/screenshots/searching-progress.png)
 
-### 2. 五维证据质量评分
+### 2. Five-dimension quality scoring
 
-每条证据不是"搜到就用"。系统用 LLM 模拟专业评审人员，从五个维度独立评分：
+Found doesn't mean good. Each source gets scored by an LLM reviewer across five dimensions:
 
-| 维度 | 满分 | 评什么 |
-|------|------|--------|
-| **权威性** | 30 | 作者资质、机构背书、专业背景 |
-| **准确性** | 30 | 引用来源、数据支撑、可验证性 |
-| **目的性** | 20 | 教育/研究 vs 营销/广告 |
-| **时效性** | 10 | 发布时间、内容新鲜度 |
-| **覆盖度** | 10 | 分析深度、论述完整性 |
+| Dimension | Max | What it measures |
+|-----------|-----|------------------|
+| **Authority** | 30 | Author credentials, institutional backing |
+| **Accuracy** | 30 | Citations, data support, verifiability |
+| **Purpose** | 20 | Educational/research vs. marketing/ads |
+| **Timeliness** | 10 | Publication date, freshness |
+| **Coverage** | 10 | Depth, completeness |
 
-只有总分超过质量阈值（默认 60/100）的页面才能贡献证据。评分逻辑不依赖域名白名单，而是让 LLM 从内容本身判断——一个个人博客如果论证严谨，照样能得高分。
+Only sources above threshold (default 60/100) contribute evidence. No domain whitelists — a personal blog with solid arguments scores just as well as a .edu page with fluff.
 
-![五维评分](docs/screenshots/score-detail.png)
+![Score detail](docs/screenshots/score-detail.png)
 
-### 3. 自进化信息源系统
+### 3. Self-evolving source memory
 
-这是本项目最大的差异点。系统不只是搜索，**它会学习「哪些地方值得搜」。**
+The real differentiator. The system doesn't just search — it remembers what worked.
 
-每次搜索后，系统会：
-- 记录每个来源的表现（评分、通过率）
-- 自动给来源分层：**Elite → Trusted → Verified → Trial → Deprecated**
-- 下次遇到类似主题时，优先搜索历史高分来源
+After each run:
+- Records how each source performed (scores, pass rate)
+- Tiers sources automatically: **Elite → Trusted → Verified → Trial → Deprecated**
+- Next time, prioritizes sources that historically score well on similar topics
 
-这意味着：
-- 第 1 次使用：正常搜索，结果已经很好
-- 第 5 次使用：系统开始利用历史来源，搜索更快
-- 第 20 次使用：高价值来源积累充分，结果明显更准
+In practice:
+- Run 1: Normal search, already solid results
+- Run 5: Source history kicks in, faster convergence
+- Run 20: High-value sources accumulated, noticeably better output
 
-用户无需任何操作。自进化完全在后台自动发生。
+Happens entirely in the background. No user action needed.
 
-### 4. 搜索过程完全透明
+### 4. Transparent process
 
-不是黑盒。点击任何一个搜索方向，右侧面板会实时显示：
-- Agent 的思考过程（为什么选择这个搜索策略）
-- 具体的搜索查询
-- 访问了哪些页面
-- 每个页面的评分和理由
+You can watch everything in real time:
+- Agent reasoning (why it picked a search strategy)
+- Exact queries used
+- Which pages were visited
+- Each page's score and why
 
-![搜索日志](docs/screenshots/search-log.png)
+![Search log](docs/screenshots/search-log.png)
 
-### 5. 两段式评估架构
+### 5. Two-stage evaluation
 
-搜索和评估分两步进行，节省资源又保证质量：
+Searching and scoring are separate steps:
 
-- **轻评估**：搜索结果返回后，Agent 自主判断哪些链接值得深入访问
-- **重评估**：访问页面后，LLM 按五维标准正式评分，决定是否纳入证据池
+- **Light pass**: Agent looks at search results, picks which links are worth visiting
+- **Deep pass**: After visiting, LLM scores the page on all five dimensions before admitting any evidence
 
-这比"搜到就用"或"全部重评"都更高效。
+More efficient than scoring everything blindly.
 
-### 6. 结构化输出
+### 6. Structured output
 
-结果不是一大段混乱的总结。而是按「论点 + 论据」组织：
+Results come as arguments + evidence, not a wall of text:
 
-![结果展示](docs/screenshots/results.png)
+![Results](docs/screenshots/results.png)
 
-每条论据包含：
-- 证据摘要（中文）
-- 原始来源链接（可直接点击回溯）
-- 五维评分（可展开查看详情）
-- 来源域名
+Each piece of evidence includes:
+- Summary
+- Original source link (click to verify)
+- Five-dimension score (expandable)
+- Source domain
 
 ---
 
-## 快速开始
+## Quick Start
 
-### 环境要求
+### Requirements
 
 - Python 3.10+
-- LLM API Key（下方说明如何获取）
-- 搜索 API Key（下方说明如何获取）
+- LLM API key (OpenAI-compatible)
+- Serper API key
 
-### Step 0：克隆项目
+### Setup
 
 ```bash
 git clone https://github.com/HYC-hsy/deep-truth-search.git
 cd deep-truth-search
-```
 
-### Step 1：创建虚拟环境
-
-推荐使用 conda 或 venv 创建隔离环境，避免依赖冲突：
-
-```bash
-# 方式一：conda（推荐）
+# conda
 conda create -n deep-truth-search python=3.10
 conda activate deep-truth-search
 
-# 方式二：venv
+# or venv
 python -m venv venv
-# Windows:
-venv\Scripts\activate
-# macOS/Linux:
-source venv/bin/activate
-```
+source venv/bin/activate  # Windows: venv\Scripts\activate
 
-### Step 2：安装依赖
-
-```bash
 pip install -r requirements.txt
-```
-
-### Step 3：配置 API Key
-
-```bash
 cp .env.example .env
 ```
 
-编辑 `.env` 文件，填入以下两个必需的 API Key：
+### Configure
 
-本系统使用两个 LLM，职责不同：
+Edit `.env`. Two LLMs, different jobs:
 
-| 用途 | 角色 | 推荐模型 | 说明 |
-|------|------|----------|------|
-| **主 LLM** | Agent 思考、观点拆解、搜索策略、证据提取 | Claude Opus / GPT-4o / DeepSeek-R1 等强模型 | 需要较强的推理和规划能力，建议用你能负担的最强模型 |
-| **评分 LLM**（可选） | 五维质量评分 | GPT-4o-mini / Claude Haiku 等轻量模型 | 任务相对简单，用便宜模型即可，节省成本 |
+| Purpose | Role | Recommended | Notes |
+|---------|------|-------------|-------|
+| **Main LLM** | Reasoning, decomposition, search strategy, extraction | claude-opus-4-6 | Use the strongest model you can afford |
+| **Scoring LLM** (optional) | Quality scoring | gpt-4o | Simpler task, cheaper model works |
 
-> 如果不配置评分 LLM，系统会用主 LLM 同时承担两个角色——可以用，但成本更高。
-
-**主 LLM API Key**（必填）：
-
-支持任何 OpenAI 兼容 API：
-- [OpenAI](https://platform.openai.com/api-keys) — 推荐 `gpt-5.1` 或更强模型
-- [Anthropic Claude](https://console.anthropic.com/) — 推荐 `claude-sonnet-4-20250514` 或 `claude-opus-4-20250514`
-- 其他 OpenAI 兼容 API（如 [DeepSeek](https://platform.deepseek.com/)、通义千问等）
+> Without a scoring LLM configured, the main LLM handles both. Works fine, just costs more.
 
 ```env
-LLM_API_KEY=sk-your-api-key-here
-LLM_BASE_URL=https://api.openai.com/v1
-LLM_MODEL=gpt-5.1
-```
+# Main LLM (required)
+LLM_PROVIDER=anthropic
+LLM_API_KEY=sk-your-key
+LLM_BASE_URL=https://api.anthropic.com/v1
+LLM_MODEL=claude-opus-4-6
 
-**评分 LLM API Key**（可选，推荐配置以节省成本）：
-
-```env
-SCORING_LLM_API_KEY=sk-your-scoring-api-key
+# Scoring LLM (optional)
+SCORING_LLM_API_KEY=sk-your-scoring-key
 SCORING_LLM_BASE_URL=https://api.openai.com/v1
 SCORING_LLM_MODEL=gpt-4o
+
+# Search (required)
+SEARCH_PROVIDER=serper
+SEARCH_API_KEY=your-serper-key
 ```
 
-**搜索 API Key**（必填）：
+[Serper](https://serper.dev/) gives 2500 free searches on signup — enough for serious use.
 
-- [Serper](https://serper.dev/) — 注册即可获得免费额度（2500 次搜索），足够深度体验
+> Full config reference: [.env.example](.env.example)
 
-```env
-SEARCH_API_KEY=your-serper-api-key-here
-```
-
-> 完整配置项和说明见 [.env.example](.env.example)。
-
-### Step 4：运行
+### Run
 
 ```bash
 python main.py
 ```
 
-浏览器会自动打开 `http://127.0.0.1:8888`。输入你的观点，等待系统返回证据。
+Opens `http://127.0.0.1:8888` automatically. Type a claim, watch it work.
 
-> **提示**：首次搜索通常需要 3-10 分钟（取决于观点复杂度和网络状况）。搜索过程中你可以实时看到进度。
+> First search takes 3-10 minutes depending on complexity and network. Progress streams in real time.
 
 ---
 
-## 系统架构
+## Architecture
 
 ```
-用户输入观点
+Claim input
     |
     v
-Main Agent（全局研究控制器）
-    |-- 拆解子观点（多角度覆盖）
-    |-- 读取历史优质来源（披露窗口）
-    |-- 并行调度 Search Agent
-    |-- 评估覆盖度，决定是否补搜
-    |-- 选出记忆候选来源 → 写入长期记忆
-    |-- 组装结构化结果
+Main Agent (research controller)
+    |-- Decompose claim into sub-angles
+    |-- Load historical high-quality sources
+    |-- Dispatch Search Agents in parallel
+    |-- Evaluate coverage, decide if more searching needed
+    |-- Select memory candidates -> update source memory
+    |-- Assemble structured output
     |
     v
-Search Agent x N（并行执行，对 Main Agent 是高级工具）
-    |-- 生成搜索查询（多语言、多角度）
-    |-- 调用搜索 API 获取候选
-    |-- Agent 自主判断哪些值得访问
-    |-- 访问页面，提取结构化内容
-    |-- 五维质量评分
-    |-- 提取证据片段
-    |-- 判断是否需要补搜
+Search Agent x N (parallel)
+    |-- Generate queries (multilingual, multi-angle)
+    |-- Call search API
+    |-- Decide which results to visit
+    |-- Visit pages, extract content
+    |-- Five-dimension scoring
+    |-- Extract evidence
+    |-- Decide if more searching needed
     |
     v
-结构化输出（论点 + 论据 + 评分 + 链接）
+Structured output (arguments + evidence + scores + links)
 ```
 
-### 核心模块
+### Core Modules
 
-| 模块 | 路径 | 职责 |
-|------|------|------|
-| Main Agent | `agents/main_agent.py` | 全局研究控制循环 |
-| Search Agent | `agents/search_agent.py` | 单子观点深度搜索执行器 |
-| Agent Loop | `agents/agent_loop.py` | 通用 think-act-observe 循环引擎 |
-| 搜索工具 | `tools/search_tool.py` | 外部搜索 API 封装（Provider 模式，可扩展） |
-| 页面访问 | `tools/visit_tool.py` | 网页 / PDF 内容提取 |
-| 五维评分 | `scoring/scoring.py` | LLM 驱动的质量评估（无域名白名单） |
-| 信息源记忆 | `memory/source_memory.py` | 五层分级 + 升降级 + 披露窗口 |
-| Web UI | `ui/` | ChatGPT 风格前端（零框架依赖） |
-
----
-
-## 技术栈
-
-- **后端**: Python, FastAPI, SSE（实时推送搜索进度）
-- **前端**: 原生 HTML/CSS/JS（零框架依赖，~30KB）
-- **LLM**: OpenAI / Claude（统一接口，可扩展至任何 OpenAI 兼容 API）
-- **搜索**: Serper（Google Search API，Provider 模式可扩展）
-- **页面提取**: trafilatura（HTML）, pymupdf4llm（PDF）
-- **数据模型**: Pydantic
-- **存储**: JSON 文件（Repository 模式，可扩展至 SQLite）
+| Module | Path | What it does |
+|--------|------|--------------|
+| Main Agent | `agents/main_agent.py` | Research control loop |
+| Search Agent | `agents/search_agent.py` | Single sub-claim deep search |
+| Agent Loop | `agents/agent_loop.py` | Generic think-act-observe engine |
+| Search Tool | `tools/search_tool.py` | Search API wrapper (Provider pattern) |
+| Page Visitor | `tools/visit_tool.py` | Web/PDF content extraction |
+| Scoring | `scoring/scoring.py` | LLM-based quality assessment |
+| Source Memory | `memory/source_memory.py` | Five-tier ranking + promotion/demotion |
+| Web UI | `ui/` | ChatGPT-style frontend (zero deps, ~30KB) |
 
 ---
 
-## 配置说明
+## Tech Stack
 
-所有配置通过 `.env` 文件管理。主要配置项：
+- **Backend**: Python, FastAPI, SSE (real-time progress)
+- **Frontend**: Vanilla HTML/CSS/JS (no framework, ~30KB)
+- **LLM**: Any OpenAI-compatible API (Claude / GPT / DeepSeek / etc.)
+- **Search**: Serper (Provider pattern, easy to add others)
+- **Extraction**: trafilatura (HTML), pymupdf4llm (PDF)
+- **Models**: Pydantic
+- **Storage**: JSON (Repository pattern, extensible to SQLite)
 
-| 配置 | 默认值 | 说明 |
-|------|--------|------|
-| `LLM_MODEL` | `gpt-4o` | LLM 模型名称 |
-| `QUALITY_THRESHOLD` | `60` | 证据质量准入阈值（0-100） |
-| `MEMORY_THRESHOLD` | `75` | 来源记忆准入阈值（高于此分数才记入长期记忆） |
-| `MAX_PARALLEL_SEARCHES` | `3` | 并行搜索数 |
-| `MAIN_AGENT_MAX_TURNS` | `12` | Main Agent 最大轮次 |
-| `SEARCH_AGENT_MAX_TURNS` | `8` | Search Agent 最大轮次 |
-| `DISCLOSURE_WINDOW_SIZE` | `15` | 披露窗口大小（向 Agent 展示的历史优质来源数） |
+---
 
-完整配置和注释见 [.env.example](.env.example)。
+## Configuration
+
+Key settings in `.env`:
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `LLM_MODEL` | `claude-opus-4-6` | Main LLM |
+| `QUALITY_THRESHOLD` | `60` | Evidence quality threshold (0-100) |
+| `MEMORY_THRESHOLD` | `75` | Source memory admission threshold |
+| `MAX_PARALLEL_SEARCHES` | `3` | Parallel search agents |
+| `MAIN_AGENT_MAX_TURNS` | `12` | Main Agent max turns |
+| `SEARCH_AGENT_MAX_TURNS` | `8` | Search Agent max turns |
+| `DISCLOSURE_WINDOW_SIZE` | `15` | Historical sources shown to agent |
+
+Full reference: [.env.example](.env.example)
 
 ---
 
 ## Dark Mode
 
-支持亮色 / 暗色主题，跟随系统偏好或右上角手动切换。
+Follows system preference, or toggle manually top-right.
 
-![暗色主题](docs/screenshots/dark-mode-results.png)
-
----
-
-## 适合谁用
-
-- **想验证一个观点的人** — 输入观点，获得多角度证据
-- **写论文/报告的学生** — 快速收集高质量参考来源
-- **教师和研究者** — 做主题调研，收集多来源证据
-- **内容创作者** — 为文章、视频找可靠支撑材料
-- **任何需要"找证据"的人** — 不需要专业检索能力
+![Dark mode](docs/screenshots/dark-mode-results.png)
 
 ---
 
-## 贡献
+## Who is this for
 
-欢迎贡献！你可以：
+- **Anyone with a claim** — type it in, get evidence from multiple angles
+- **Students** — gather references fast
+- **Researchers** — multi-source evidence collection
+- **Content creators** — find reliable material for articles/videos
+- **Anyone who needs evidence** — no research skills required
 
-- 提交 Bug 报告或功能建议 → [Issues](https://github.com/HYC-hsy/deep-truth-search/issues)
-- 提交 Pull Request
-- 添加新的搜索引擎适配器（实现 `SearchProvider` 接口）
-- 改进评分逻辑
-- 改进 UI/UX
+---
+
+## Contributing
+
+- Bug reports / feature requests → [Issues](https://github.com/HYC-hsy/deep-truth-search/issues)
+- PRs welcome
+- Add search adapters (implement `SearchProvider`)
+- Improve scoring logic
+- Improve UI/UX
 
 ---
 
 ## License
 
-[MIT License](LICENSE)
+[MIT](LICENSE)
